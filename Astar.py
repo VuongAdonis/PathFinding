@@ -92,15 +92,9 @@ obstacle_probability = 0.3  # 30% chance for obstacles
 
 # Generate the matrix
 matrix = generate_matrix(num_rows, num_cols, obstacle_probability)
-print(matrix)
-# Ví dụ sử dụng với một lưới ô vuông
-# grid = [
-#     [0, 0, 0, 0, 1],
-#     [1, 1, 0, 1, 0],
-#     [0, 0, 0, 0, 0],
-#     [0, 1, 1, 1, 0],
-#     [0, 0, 0, 0, 0],
-# ]
+for row in matrix:
+    print(row)
+
 
 start = (0, 0)
 goal = (4, 4)
