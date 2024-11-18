@@ -65,11 +65,17 @@ def astar(start, goal, grid):
             if neighbor not in g_costs or tentative_g_cost < g_costs[neighbor]:
                 came_from[neighbor] = current
                 g_costs[neighbor] = tentative_g_cost
-                f_cost = tentative_g_cost + heuristic(neighbor, goal)
+                # Tính toán f_cost dùng manhattan hoặc euclidean
+                f_cost = tentative_g_cost + \
+                    heuristic(neighbor, goal)
+                # f_cost = tentative_g_cost + \
+                #     heuristic(neighbor, goal, "euclidean")
                 heapq.heappush(open_set, (f_cost, neighbor))
 
     # Trả về None nếu không tìm được đường đi
     return None
+
+# Hàm tạo ma trận với khoảng trống (0), chướng ngại vật (1) với xác suất định trước
 
 
 def generate_matrix(rows, cols, obstacle_probability=0.3):
@@ -78,26 +84,30 @@ def generate_matrix(rows, cols, obstacle_probability=0.3):
         row = []
         for j in range(cols):
             if random.random() < obstacle_probability:
-                row.append(1)  # Obstacle
+                row.append(1)  # Chướng ngại vật
             else:
-                row.append(0)  # Free space
+                row.append(0)  # Khoảng trống
         matrix.append(row)
+    matrix[0][0] = 0
+    matrix[4][4] = 0
     return matrix
 
 
-# Parameters for the matrix
+# ---------- Khởi tạo và chạy thuật toán --------------#
+# Tham số cho ma trận
 num_rows = 5
 num_cols = 5
-obstacle_probability = 0.3  # 30% chance for obstacles
+obstacle_probability = 0.3  # Khả năng gặp chướng ngại vật (30%)
 
-# Generate the matrix
+# Sinh ra ma trận
 matrix = generate_matrix(num_rows, num_cols, obstacle_probability)
 for row in matrix:
     print(row)
 
-
+# chọn điểm bắt đầu và mục tiêu
 start = (0, 0)
 goal = (4, 4)
 
+# Chạy thuật toán A*
 path = astar(start, goal, matrix)
 print("Path:", path)
